@@ -50,7 +50,7 @@ def rosenbrock_gradient(x):
     grad[-1] = 200 * (x[-1] - x[-2]**2)
     return grad
 
-Q_mat = np.array([[5.0, 1.0], [1.0, 2.0]])
+Q_mat = np.array([[100.0, 1.0], [1.0,   1.0]])
 b_vec = np.array([1.0, 1.0])
 
 def quadratic(x):

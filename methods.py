@@ -104,7 +104,11 @@ def bb(x0, func, grad, domain, variant='BB1', epsilon=1e-8, max_iterations=1000)
 
     x_prev = x.copy()
     g_prev = g.copy()
-    x = x - alpha*g
+
+    x = x - alpha*g # x^{k+1} = x^k - alpha_k * g^k
+    lo, hi = domain
+    if not (np.isinf(lo) and np.isinf(hi)):
+        x = np.clip(x, lo, hi)
     g = grad(x)
 
     for k in range(1, max_iterations):

@@ -104,7 +104,7 @@ if __name__ == "__main__":
             start, 
             func=sphere, 
             grad=sphere_gradient, 
-            alpha=1e-5, 
+            alpha=0.001,
             beta=0.9, 
             epsilon=1e-8, 
             max_iterations=1000
@@ -203,7 +203,7 @@ if __name__ == "__main__":
     beta_nag  = 1 / kappa
     rate_nag  = (np.sqrt(kappa)-1)/(np.sqrt(kappa)+1)   # same rate as HB
     x0_quad   = np.array([2.0, 2.0])
-    alpha_nag = 2 / (ln + l1)
+    alpha_nag = 1 / (ln + l1)
     x_opt, f_opt, iterations = nag(
         x0_quad, func=quadratic, grad=quadratic_gradient, alpha=alpha_nag, beta=beta_nag
     )
