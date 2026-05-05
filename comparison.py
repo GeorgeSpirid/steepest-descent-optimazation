@@ -152,6 +152,7 @@ if __name__ == "__main__":
         epsilon=1e-8, 
         max_iterations=1000
     )
+    print(f"x* = {np.round(x_star, 4)}   f(x*) = {quadratic(x_star):.6f}   (global minimum)")
     print(f"Start: {np.round(x_start, 2)} | Optimal x: {np.round(x_opt, 4)} | f(x): {f_opt:.4f} | Iters: {iterations} | Theoretical Rate: {rate_opt:.4f}")
 
     print("\n=== Testing Steepest Descent on Quadratic Function ===")
@@ -165,8 +166,9 @@ if __name__ == "__main__":
         epsilon=1e-8, 
         max_iterations=1000
     )
-    print(f"Steepest Descent | Start: {np.round(x_start, 2)} | Optimal x: {np.round(x_opt, 4)} | f(x): {f_opt:.4f} | Iters: {iterations} | Theoretical Rate: {rate_sd:.4f}")
+    print(f"x* = {np.round(x_star, 4)}   f(x*) = {quadratic(x_star):.6f}   (global minimum)")
 
+    print(f"Steepest Descent | Start: {np.round(x_start, 2)} | Optimal x: {np.round(x_opt, 4)} | f(x): {f_opt:.4f} | Iters: {iterations} | Theoretical Rate: {rate_sd:.4f}")
     print("\n=== NAG — Ackley (alpha=0.001, beta=0.9) ===")
     for start in starts_ackley:
         x_opt, f_opt, iterations = nag(
@@ -205,5 +207,43 @@ if __name__ == "__main__":
     x_opt, f_opt, iterations = nag(
         x0_quad, func=quadratic, grad=quadratic_gradient, alpha=alpha_nag, beta=beta_nag
     )
+    print(f"x* = {np.round(x_star, 4)}   f(x*) = {quadratic(x_star):.6f}   (global minimum)")
     print(f"alpha*={alpha_nag:.6f}  beta*=1/kappa={beta_nag:.6f}  theoretical rate={rate_nag:.4f}")
     print(f"x0={list(x0_quad)} | x={np.round(x_opt,6)} | f={f_opt:.6f} | k={iterations}")
+
+    print("\n=== BB1 — Ackley ===")
+    for start in starts_ackley:
+        x_opt, f_opt, iterations = bb(
+            start, func=ackley, grad=ackley_gradient, domain=ackley_domain, variant='BB1'
+        )
+        print(f"Start: {np.round(start,2)} | x: {np.round(x_opt,4)} | f: {f_opt:.4f} | k: {iterations}")
+    x_opt, f_opt, iterations = bb(
+        good_ackley_start, func=ackley, grad=ackley_gradient, domain=ackley_domain, variant='BB1'
+    )
+    print(f"Good Start: {np.round(good_ackley_start,2)} | x: {np.round(x_opt,4)} | f: {f_opt:.4f} | k: {iterations}")
+
+    print("\n=== BB1 — Sphere ===")
+    for start in starts_sphere:
+        x_opt, f_opt, iterations = bb(
+            start, func=sphere, grad=sphere_gradient, domain=sphere_domain, variant='BB1'
+        )
+        print(f"Start: {np.round(start,2)} | x: {np.round(x_opt,4)} | f: {f_opt:.4f} | k: {iterations}")
+
+    print("\n=== BB1 — Rosenbrock ===")
+    for start in starts_rosenbrock:
+        x_opt, f_opt, iterations = bb(
+            start, func=rosenbrock, grad=rosenbrock_gradient, domain=rosenbrock_domain, variant='BB1'
+        )
+        print(f"Start: {np.round(start,2)} | x: {np.round(x_opt,4)} | f: {f_opt:.4f} | k: {iterations}")
+    x_opt, f_opt, iterations = bb(
+        good_rosenbrock_start, func=rosenbrock, grad=rosenbrock_gradient, domain=rosenbrock_domain, variant='BB1'
+    )
+    print(f"Good Start: {np.round(good_rosenbrock_start,2)} | x: {np.round(x_opt,4)} | f: {f_opt:.4f} | k: {iterations}")
+
+    print("\n=== BB1 vs BB2 — Quadratic ===")
+    print(f"x* = {np.round(x_star,4)}   f(x*) = {quadratic(x_star):.6f}   (global minimum)")
+    for variant in ['BB1', 'BB2']:
+        x_opt, f_opt, iterations = bb(
+            x_start, func=quadratic, grad=quadratic_gradient, domain=(-np.inf, np.inf), variant=variant
+        )
+        print(f"{variant} | x={np.round(x_opt,6)} | f={f_opt:.6f} | k={iterations}")
