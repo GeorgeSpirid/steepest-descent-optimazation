@@ -23,7 +23,6 @@ def ackley(x): # f(0, 0) = 0 is the global minimum
     term1 = -a * np.exp(-b * np.sqrt(sum1 / n))
     term2 = -np.exp(sum2 / n)
     return term1 + term2 + a + np.exp(1)
-
 def ackley_gradient(x):
     a = 20
     b = 0.2
@@ -38,9 +37,19 @@ def ackley_gradient(x):
 sphere_domain = (-np.inf, np.inf)
 def sphere(x): # f(0, ..., 0) = 0 is the global minimum
     return np.sum(x**2)
-
 def sphere_gradient(x):
     return 2 * x
+
+rosenbrock_domain = (-np.inf, np.inf)
+def rosenbrock(x): # f(1, ..., 1) = 0 is the global minimum
+    return np.sum(100.0 * (x[1:] - x[:-1]**2)**2 + (1 - x[:-1])**2)
+def rosenbrock_gradient(x):
+    grad = np.zeros_like(x)
+    grad[0] = -400 * x[0] * (x[1] - x[0]**2) - 2 * (1 - x[0])
+    for i in range(1, len(x)-1):
+        grad[i] = 200 * (x[i] - x[i-1]**2) - 400 * x[i] * (x[i+1] - x[i]**2) - 2 * (1 - x[i])
+    grad[-1] = 200 * (x[-1] - x[-2]**2)
+    return grad
 
 def max_a(x, g, domain):
     # largest step size a such that x-a*g is still in the domain
@@ -98,7 +107,7 @@ if __name__ == "__main__":
             domain=rastrigin_domain
         )
         print(f"Start: {np.round(start, 2)} | Optimal x: {np.round(x_opt, 4)} | f(x): {f_opt:.4f} | Iters: {iterations}")
-    good_rastrigin_start = np.array([0.3, -0.2])
+    good_rastrigin_start = np.array([0.1, 0.1])
     x_opt, f_opt, iterations = steepest_descent(
         good_rastrigin_start, 
         func=rastrigin, 
@@ -136,3 +145,22 @@ if __name__ == "__main__":
             domain=sphere_domain
         )
         print(f"Start: {np.round(start, 2)} | Optimal x: {np.round(x_opt, 4)} | f(x): {f_opt:.4f} | Iters: {iterations}")
+
+    print("\n=== Testing Rosenbrock Function ===")
+    starts_rosenbrock = [np.random.uniform(-2, 2, n_dim) for _ in range(n_trials)]
+    for start in starts_rosenbrock:
+        x_opt, f_opt, iterations = steepest_descent(
+            start, 
+            func=rosenbrock, 
+            grad=rosenbrock_gradient, 
+            domain=rosenbrock_domain
+        )
+        print(f"Start: {np.round(start, 2)} | Optimal x: {np.round(x_opt, 4)} | f(x): {f_opt:.4f} | Iters: {iterations}")
+    good_rosenbrock_start = np.array([1.2, 1.2])
+    x_opt, f_opt, iterations = steepest_descent(
+        good_rosenbrock_start, 
+        func=rosenbrock, 
+        grad=rosenbrock_gradient, 
+        domain=rosenbrock_domain
+    )
+    print(f"Good Start: {np.round(good_rosenbrock_start, 2)} | Optimal x: {np.round(x_opt, 4)} | f(x): {f_opt:.4f} | Iters: {iterations}")
