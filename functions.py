@@ -58,3 +58,22 @@ def quadratic(x):
 
 def quadratic_gradient(x):
     return Q_mat @ x - b_vec
+
+# two convex functions to not get stuck in local minima
+booth_domain = (-10, 10)
+def booth(x): # f(1, 3) = 0 is the global minimum
+    return (x[0] + 2*x[1] - 7)**2 + (2*x[0] + x[1] - 5)**2
+
+def booth_gradient(x):
+    df_dx0 = 2*(x[0] + 2*x[1] - 7) + 4*(2*x[0] + x[1] - 5)
+    df_dx1 = 4*(x[0] + 2*x[1] - 7) + 2*(2*x[0] + x[1] - 5)
+    return np.array([df_dx0, df_dx1])
+
+matyas_domain = (-10, 10)
+def matyas(x): # f(0, 0) = 0 is the global minimum
+    return 0.26*(x[0]**2 + x[1]**2) - 0.48*x[0]*x[1]
+
+def matyas_gradient(x):
+    df_dx0 = 0.52*x[0] - 0.48*x[1]
+    df_dx1 = 0.52*x[1] - 0.48*x[0]
+    return np.array([df_dx0, df_dx1])
