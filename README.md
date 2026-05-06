@@ -1,8 +1,8 @@
 # Σύγκριση Αλγορίθμων Βελτιστοποίησης της Steepest Descent
 
 Αυτό το project υλοποιεί, συγκρίνει και οπτικοποιεί διάφορες μεθόδους βελτιστοποίησης πρώτης τάξης πάνω σε γνωστές συναρτήσεις ελέγχου, τόσο κυρτές όσο και μη-κυρτές.
-Η κύρια αναφορά είναι στο αρχείο \href{run:steepest_descent_optimization.pdf}{\texttt{steepest\_descent\_optimization.pdf}}.
-Επίσης, όλες οι προσωπικές μου σημειώσεις για την θεωρία που χρησιμοποιήθηκες βρίσκοντε στο αρχείο \href{run:personal-notes.pdf}{\texttt{personal-notes.pdf}}.
+Η κύρια αναφορά είναι στο αρχείο [`steepest_descent_optimization.pdf`](steepest_descent_optimization.pdf).
+Επίσης, όλες οι προσωπικές μου σημειώσεις για την θεωρία που χρησιμοποιήθηκε βρίσκονται στο αρχείο [`personal-notes.pdf`](personal-notes.pdf).
 
 ## Αλγόριθμοι που Υλοποιήθηκαν
 - **Steepest Descent**.
